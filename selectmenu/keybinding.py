@@ -2,37 +2,32 @@
 # coding: utf-8
 
 from prompt_toolkit.keys import Keys
-from prompt_toolkit.key_binding.manager import KeyBindingManager
+from prompt_toolkit.key_binding.key_bindings import KeyBindings
 
 
 def set_key_binding(cntrllr):
+    bindings = KeyBindings()
 
-    manager = KeyBindingManager.for_prompt()
-    registry = manager.registry
-
-    @registry.add_binding(Keys.ControlQ, eager=True)
-    @registry.add_binding(Keys.ControlC, eager=True)
+    @bindings.add(Keys.ControlQ, eager=True)
+    @bindings.add(Keys.ControlC, eager=True)
     def _(event):
+        event.cli.future.set_result(None)
 
-        event.cli.set_return_value(None)
-
-    @registry.add_binding(Keys.Down, eager=True)
-    @registry.add_binding(Keys.ControlN, eager=True)
-    def move_cursor_down(event):
-
+    @bindings.add(Keys.Down, eager=True)
+    @bindings.add(Keys.ControlN, eager=True)
+    def _(_):
         cntrllr.selected_option_index = (
             (cntrllr.selected_option_index + 1) % cntrllr.choice_count)
 
-    @registry.add_binding(Keys.Up, eager=True)
-    @registry.add_binding(Keys.ControlP, eager=True)
-    def move_cursor_up(event):
-
+    @bindings.add(Keys.Up, eager=True)
+    @bindings.add(Keys.ControlP, eager=True)
+    def _(_):
         cntrllr.selected_option_index = (
             (cntrllr.selected_option_index - 1) % cntrllr.choice_count)
 
-    @registry.add_binding(Keys.Enter, eager=True)
-    def set_answer(event):
+    @bindings.add(Keys.Enter, eager=True)
+    def _(event):
         cntrllr.answered = True
-        event.cli.set_return_value(None)
+        event.cli.future.set_result(None)
 
-    return registry
+    return bindings
