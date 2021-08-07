@@ -46,3 +46,7 @@ $ pip install SelectMenu
 
 1. Forks on [Github](https://github.com/alice1017/SelectMenu)
 2. Find a bug? Send a pull request to get it merged and published.
+
+## Update
+
+I have updated `prompt-toolkit` to version 3.0.19 and I have refactor the code to use this toolkit version.

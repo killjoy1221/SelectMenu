@@ -3,11 +3,11 @@
 
 from __future__ import unicode_literals
 
-from prompt_toolkit.token import Token
-from prompt_toolkit.layout.controls import TokenListControl
+from pygments.token import Token
+from prompt_toolkit.layout.controls import FormattedTextControl
 
 
-class SelectControl(TokenListControl):
+class SelectControl(FormattedTextControl):
     selected_option_index = 0
     answered = False
 
@@ -20,13 +20,13 @@ class SelectControl(TokenListControl):
     def choice_count(self):
         return len(self.choices)
 
-    def _get_choice_tokens(self, cli):
+    def _get_choice_tokens(self):
         tokens = []
 
         def append(index, label):
             selected = (index == self.selected_option_index)
 
-            def select_item(cli, mouse_event):
+            def select_item(cli, _):
                 # bind option with this index to mouse event
                 self.selected_option_index = index
                 self.answered = True
@@ -47,11 +47,11 @@ class SelectControl(TokenListControl):
             tokens.append((Token, '\n'))
 
         # prepare the select choices
-        for i, choice in enumerate(self.choices):
-            append(i, choice)
+        for index, choice in enumerate(self.choices):
+            append(index, choice)
 
         tokens.pop()  # Remove last newline.
-        return tokens
+        return ''.join(list(map(lambda token: str(token[1]), tokens)))
 
     @property
     def selected(self):
