@@ -18,7 +18,7 @@ setup(
     license="MIT License",
     url="https://github.com/alice1017/SelectMenu",
     packages=find_packages(),
-    install_requires=["prompt-toolkit==1.0.15"],
+    install_requires=open("requirements.txt").readlines(),
     classifiers=[
         'Development Status :: 4 - Beta',
         'Programming Language :: Python :: 2.7',
