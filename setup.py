@@ -4,7 +4,7 @@ import re
 
 from setuptools import setup, find_packages
 
-with open("README.rst", "r") as fp:
+with open("README.rst", "r", encoding="utf-8") as fp:
     long_description = fp.read()
 
 with open("requirements.txt") as fp:
